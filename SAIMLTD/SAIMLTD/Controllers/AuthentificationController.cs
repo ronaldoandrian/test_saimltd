@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace SAIMLTD.Controllers
 {
-    public class AuthentificationController : BaseController
+    public class AuthentificationController : Controller
     {
         public ActionResult Login()
         {

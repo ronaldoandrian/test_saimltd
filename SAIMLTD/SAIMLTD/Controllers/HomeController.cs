@@ -6,11 +6,13 @@ using System.Web.Mvc;
 
 namespace SAIMLTD.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
         public ActionResult Customers()
         {
             return View("NosClients");
         }
+
+
     }
 }
