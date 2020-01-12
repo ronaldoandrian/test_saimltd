@@ -1,43 +1,72 @@
-﻿
+﻿@using SAIMLTD.Models.Entity
+
 @{
     ViewBag.Title = "Editer le client";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div class="col-lg-12">
-    <div class="card">
-        <div class="card-header">
-            Editer les informations de: <strong>@ViewBag.societe</strong>
-        </div>
-        <div class="card-body card-block">
-            <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
-                <div class="row form-group">
-                    <div class="col col-md-3"><label class="" form-control-label">Static</label></div>
-                    <div class="col-12 col-md-9">
-                        <p class="form-control-static">Username</p>
+@{ 
+    Client client = ViewBag.societe as Client;
+    if (client != null) {
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                Editer les informations de: <strong>@client.GetDenomination()</strong>
+            </div>
+            <div class="card-body card-block">
+                <form action="/customer/update" method="post" enctype="multipart/form-data" class="form-horizontal">
+                    <input type="hidden" id="text-input" name="id" value="@client.GetId()" class="form-control">
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="text-input" class="" form-control-label">Denomination</label></div>
+                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="denomination" value="@client.GetDenomination()" class="form-control"></div>
                     </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col col-md-3"><label for="text-input" class="" form-control-label">Text Input</label></div>
-                    <div class="col-12 col-md-9"><input type="text" id="text-input" name="text-input" placeholder="Text" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
-                </div>
-                <div class="row form-group">
-                    <div class="col col-md-3"><label for="email-input" class="" form-control-label">Email Input</label></div>
-                    <div class="col-12 col-md-9"><input type="email" id="email-input" name="email-input" placeholder="Enter Email" class="form-control"><small class="help-block form-text">Please enter your email</small></div>
-                </div>
-                <div class="row form-group">
-                    <div class="col col-md-3"><label for="password-input" class="" form-control-label">Password</label></div>
-                    <div class="col-12 col-md-9"><input type="password" id="password-input" name="password-input" placeholder="Password" class="form-control"><small class="help-block form-text">Please enter a complex password</small></div>
-                </div>
-            </form>
-        </div>
-        <div class="card-footer">
-            <button type="submit" class="btn btn-primary btn-sm">
-                <i class="fa fa-dot-circle-o"></i> Submit
-            </button>
-            <button type="reset" class="btn btn-danger btn-sm">
-                <i class="fa fa-ban"></i> Reset
-            </button>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="text-input" class="" form-control-label">Adresse</label></div>
+                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="adresse" value="@client.GetAdresse()" class="form-control"></div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="text-input" class="" form-control-label">Téléphone</label></div>
+                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="telephone" value="@client.GetTelephone()" class="form-control"></div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="text-input" class="" form-control-label">Mail</label></div>
+                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="mail" value="@client.GetMail()" class="form-control"></div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="text-input" class="" form-control-label">SIREN</label></div>
+                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="siren" value="@client.GetSiren()" class="form-control"></div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="text-input" class="" form-control-label">Activité</label></div>
+                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="activite" value="@client.GetActivite()" class="form-control"></div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="text-input" class="" form-control-label">Capital</label></div>
+                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="capital" value="@client.GetCapital()" class="form-control"></div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="text-input" class="" form-control-label">Forme juridique</label></div>
+                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="forme_juridique" value="@client.GetFormeJuridique()" class="form-control"></div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary btn-sm" style="cursor: pointer;">
+                            <i class="fa fa-dot-circle-o"></i> Valider
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+    }
+    else
+    {
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    Non disponible!
+                </div>
+                <div class="card-body card-block">Aucune information à afficher dans cette page!</div>
+            </div>
+        </div>
+    }
+
+    }

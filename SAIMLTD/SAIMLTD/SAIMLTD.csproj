@@ -93,6 +93,14 @@
       <HintPath>..\packages\MySql.Data.Entity.6.10.9\lib\net452\MySql.Data.Entity.EF6.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MySql.Data.EntityFramework, Version=8.0.18.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.18\Assemblies\v4.5.2\MySql.Data.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Web, Version=8.0.18.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.18\Assemblies\v4.5.2\MySql.Web.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel" />
     <Reference Include="System.Configuration.Install" />
@@ -176,9 +184,20 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DAO\BaseDAO.cs" />
+    <Compile Include="Models\DAO\ClientDAO.cs" />
+    <Compile Include="Models\DAO\Connexion.cs" />
+    <Compile Include="Models\DAO\ContactPersonDAO.cs" />
+    <Compile Include="Models\Entity\Client.cs" />
+    <Compile Include="Models\Entity\ContactPerson.cs" />
+    <Compile Include="Models\Services\CustomerService.cs" />
+    <Compile Include="Models\Services\PageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\sql\client.data.sql" />
+    <Content Include="App_Data\sql\personne.data.sql" />
+    <Content Include="App_Data\sql\script.sql" />
     <Content Include="Assets\Admin-icon.png" />
     <Content Include="Assets\favicon.png" />
     <Content Include="Assets\SAIM_LOGO.png" />
@@ -213,13 +232,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Authentification\Connexion.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Models\DAO\" />
-    <Folder Include="Models\Entity\" />
-    <Folder Include="Models\Services\" />
-    <Folder Include="Models\Utility\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

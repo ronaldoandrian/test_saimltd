@@ -68,6 +68,38 @@
         <div class="content">
             <div class="animated fadeIn">
                 <div class="row">
+                    @if (ViewBag.erreur != null || ViewBag.success != null)
+                    {
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong class="card-title">Message</strong>
+                                </div>
+                                <div class="card-body">
+                                    @if (ViewBag.erreur != null)
+                                    {
+                                        <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
+                                            <span class="badge badge-pill badge-danger">Erreur</span>
+                                            @ViewBag.erreur
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                    }
+                                    else if (ViewBag.success != null)
+                                    {
+                                        <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
+                                            <span class="badge badge-pill badge-danger">Succès</span>
+                                            @ViewBag.success
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
                     @RenderBody()
                 </div>
             </div>
