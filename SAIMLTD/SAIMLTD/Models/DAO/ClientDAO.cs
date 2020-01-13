@@ -9,6 +9,44 @@ namespace SAIMLTD.Models.DAO
 {
     public class ClientDAO : BaseDAO
     {
+        public bool AddCustomer(Client client)
+        {
+            DBConnection connection = null;
+            MySqlCommand command = null;
+            try
+            {
+                connection = new DBConnection();
+                command = connection.GetConnection().CreateCommand();
+                command.CommandText = @"INSERT INTO Client(denomination, adresse, telephone, mail, siren, activite, capital, forme_juridique) VALUES (@den, @adr,  @tel,  @mail,  @sir,  @act,  @cap, @for)";
+                command.Parameters.AddWithValue("@den", client.GetDenomination());
+                command.Parameters.AddWithValue("@adr", client.GetAdresse());
+                command.Parameters.AddWithValue("@tel", client.GetTelephone());
+                command.Parameters.AddWithValue("@mail", client.GetMail());
+                command.Parameters.AddWithValue("@sir", client.GetSiren());
+                command.Parameters.AddWithValue("@act", client.GetActivite());
+                command.Parameters.AddWithValue("@cap", client.GetCapital());
+                command.Parameters.AddWithValue("@for", client.GetFormeJuridique());
+                int row_affected = command.ExecuteNonQuery();
+                return row_affected > 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                try
+                {
+                    if (command != null) command.Dispose();
+                    if (connection != null) connection.CloseConnection();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
         public Client GetCustomerById(int id)
         {
             DBConnection connection = null;
@@ -66,7 +104,7 @@ namespace SAIMLTD.Models.DAO
             {
                 connection = new DBConnection();
                 command = connection.GetConnection().CreateCommand();
-                command.CommandText = @"UPDATE Client SET denomination = @den, adresse = @adr, telephone = @tel, mail = @mail, siren = @sir, activite = @act, capital = @cap, forme_juridique = @for";
+                command.CommandText = @"UPDATE Client SET denomination = @den, adresse = @adr, telephone = @tel, mail = @mail, siren = @sir, activite = @act, capital = @cap, forme_juridique = @for WHERE id = @id";
                 command.Parameters.AddWithValue("@den", client.GetDenomination());
                 command.Parameters.AddWithValue("@adr", client.GetAdresse());
                 command.Parameters.AddWithValue("@tel", client.GetTelephone());
@@ -75,6 +113,7 @@ namespace SAIMLTD.Models.DAO
                 command.Parameters.AddWithValue("@act", client.GetActivite());
                 command.Parameters.AddWithValue("@cap", client.GetCapital());
                 command.Parameters.AddWithValue("@for", client.GetFormeJuridique());
+                command.Parameters.AddWithValue("@id", client.GetId());
                 int row_affected = command.ExecuteNonQuery();
                 return row_affected > 0;
             }
@@ -100,23 +139,34 @@ namespace SAIMLTD.Models.DAO
         {
             DBConnection connection = null;
             MySqlCommand command = null;
+            MySqlTransaction transaction = null;
             try
             {
                 connection = new DBConnection();
-                command = connection.GetConnection().CreateCommand();
+                MySqlConnection mySqlConnection = connection.GetConnection();
+                transaction = mySqlConnection.BeginTransaction();
+                command = new MySqlCommand();
+                command.Connection = mySqlConnection;
+                command.Transaction = transaction;
+                command.CommandText = @"DELETE FROM Contact_person WHERE id_societe = @Ids";
+                command.Parameters.AddWithValue("@Ids", idcustomer);
+                int row_affected = command.ExecuteNonQuery();
                 command.CommandText = @"DELETE FROM Client WHERE id = @Id";
                 command.Parameters.AddWithValue("@Id", idcustomer);
-                int row_affected = command.ExecuteNonQuery();
+                row_affected += command.ExecuteNonQuery();
+                transaction.Commit();
                 return row_affected > 0;
             }
             catch (Exception)
             {
+                if (transaction != null) transaction.Rollback();
                 throw;
             }
             finally
             {
                 try
                 {
+                    if (transaction != null) transaction.Dispose();
                     if (command != null) command.Dispose();
                     if (connection != null) connection.CloseConnection();
                 }

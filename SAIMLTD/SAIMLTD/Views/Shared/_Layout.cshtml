@@ -21,6 +21,11 @@
     <link rel="stylesheet" href="~/Content/themify-icons.css">
     <link rel="stylesheet" href="~/Content/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="~/Content/style.css">
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.matchHeight.min.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/main.js"></script>
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
@@ -33,10 +38,10 @@
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active">
+                    <li id="menu_nos_clients" class="active">
                         <a href="/home/customers"><i class="menu-icon fa fa-users"></i>Nos clients </a>
                     </li>
-                    <li class="">
+                    <li id="menu_ajouter" class="">
                         <a href="/customer/add"><i class="menu-icon fa fa-plus"></i>Ajouter des clients </a>
                     </li>
                 </ul>
@@ -68,36 +73,29 @@
         <div class="content">
             <div class="animated fadeIn">
                 <div class="row">
-                    @if (ViewBag.erreur != null || ViewBag.success != null)
+                    @if (ViewBag.error != null || ViewBag.success != null)
                     {
                         <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <strong class="card-title">Message</strong>
+                            @if (ViewBag.error != null)
+                            {
+                                <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
+                                    <span class="badge badge-pill badge-danger">Erreur</span>
+                                    @ViewBag.error
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
                                 </div>
-                                <div class="card-body">
-                                    @if (ViewBag.erreur != null)
-                                    {
-                                        <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
-                                            <span class="badge badge-pill badge-danger">Erreur</span>
-                                            @ViewBag.erreur
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">×</span>
-                                            </button>
-                                        </div>
-                                    }
-                                    else if (ViewBag.success != null)
-                                    {
-                                        <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
-                                            <span class="badge badge-pill badge-danger">Succès</span>
-                                            @ViewBag.success
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">×</span>
-                                            </button>
-                                        </div>
-                                    }
+                            }
+                            else if (ViewBag.success != null)
+                            {
+                                <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
+                                    <span class="badge badge-pill badge-danger">Succès</span>
+                                    @ViewBag.success
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
                                 </div>
-                            </div>
+                            }
                         </div>
                     }
                     @RenderBody()
@@ -121,10 +119,5 @@
         </footer>
 
     </div>
-    <script src="~/Scripts/jquery.min.js"></script>
-    <script src="~/Scripts/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
-    <script src="~/Scripts/jquery.matchHeight.min.js"></script>
-    <script src="~/Scripts/main.js"></script>
 </body>
 </html>

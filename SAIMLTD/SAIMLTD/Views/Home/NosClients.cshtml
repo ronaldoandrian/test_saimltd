@@ -7,7 +7,8 @@
 <div class="col-md-12">
     <div class="card">
         <div class="card-header">
-            <strong class="card-title">Liste des clients @ViewBag.nombre</strong>
+            <strong class="card-title">Liste des clients (@ViewBag.nombre)</strong>
+            <button id="export" class="btn btn-primary">Exporter</button>
         </div>
         <div class="card-body">
             <table id="bootstrap-data-table" class="table table-striped table-bordered">
@@ -16,24 +17,30 @@
                         <th>Nom de la société</th>
                         <th>Adresse</th>
                         <th>Contact(s)</th>
-                        <th>Action</th>
+                        <th style="min-width: 120px;">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @{ 
-                        List<Client> clients = ViewBag.clients as List<Client>;
-                        foreach (Client client in clients)
+                        if (ViewBag.clients != null)
                         {
+                            List<Client> clients = ViewBag.clients as List<Client>;
+                            foreach (Client client in clients)
+                            {
                             <tr>
                                 <td>@client.GetDenomination()</td>
                                 <td>@client.GetAdresse()</td>
-                                <td>@(client.GetMail()+" | "+client.GetTelephone())</td>
+                                <td>
+                                    @(client.GetMail())
+                                    <br />
+                                    @client.GetTelephone()</td>
                                 <td>
                                     <span><a href="/customer/viewcustomer?idcustomer=@client.GetId()"><i class="fa fa-eye"></i></a> &nbsp;&nbsp;&nbsp; <a href="/customer/edit?idcustomer=@client.GetId()"><i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp; <span style="color: red; cursor: pointer;"><i class="fa fa-trash" onclick="delete_client(@client.GetId())"></i></span></span>
                                 </td>
                             </tr>
+                                }
+                            }
                         }
-                    }
                 </tbody>
             </table>
         </div>

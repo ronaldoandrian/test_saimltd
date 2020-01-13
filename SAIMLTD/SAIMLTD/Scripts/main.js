@@ -86,5 +86,32 @@ jQuery(document).ready(function($) {
 		
 	});
   
- 
+	$('#export').on('click', function () {
+		var export_button = document.getElementById('export');
+		if (export_button) {
+			export_button.setAttribute('disabled', 'disabled');
+			export_button.innerHTML = "<i class='fa fa-spinner fa-pulse'></i> Export en cours...";
+			$.ajax({
+				type: "GET",
+				url: "/customer/prepare_export",
+				contentType: "application/json; charset=utf-8",
+				success: function (result) {
+					if (result.Status === 1) {
+						export_button.innerHTML = "<a href='" + result.Chemin + "' download style='color: white;'><i class='fa fa-download'></i> Telecharger</a>";
+						export_button.removeAttribute("disabled");
+						export_button.removeAttribute("id");
+						export_button.setAttribute("style", "float: right;");
+					}
+					else if (result.Status === 0) {
+						export_button.innerHTML = "<i class='fa fa-times-circle' style='color: red;'></i> Echec de l'export, reesayer?";
+						export_button.removeAttribute("disabled");
+						console.log(result.message);
+					}
+				},
+				error: function (err) {
+					
+				}
+			});
+		}
+	}); 
 });

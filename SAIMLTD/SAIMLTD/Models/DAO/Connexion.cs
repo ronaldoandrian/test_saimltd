@@ -29,6 +29,11 @@ namespace SAIMLTD.Models.DAO
             }
         }
 
+        public MySqlConnection GetConnexion()
+        {
+            return connection;
+        }
+
         public void CloseConnection()
         {
             try

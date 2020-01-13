@@ -14,13 +14,15 @@ namespace SAIMLTD.Controllers
         {
             return Redirect("/home/customers");
         }
-        public ActionResult Customers()
+        public ActionResult Customers(string success, string error)
         {
             try
             {
                 List<Client> clients = new CustomerService().GetCustomers();
                 ViewBag.clients = clients;
                 ViewBag.nombre = clients.Count;
+                if(success != null) ViewBag.success = "Le client a été supprimé avec succès!";
+                if(error != null) ViewBag.error = "Echec de la suppression du client!";
             }
             catch (Exception ex)
             {
