@@ -1,0 +1,2 @@
+denomination= TEST IMPORT 1 |adresse=Adresse import 1|telephone=+230 5 929 3939|mail=import1@gmail.com|siren=250443959|activite=Fichier de test|capital=6921517|forme_juridique=SARLU
+denomination= TEST IMPORT 2 |adresse=Adresse import 2|telephone=+230 9 268 4445|mail=import1@gmail.com|siren=034480871|activite=Fichier de test|capital=4561694|forme_juridique=SA

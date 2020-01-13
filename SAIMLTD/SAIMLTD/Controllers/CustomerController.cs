@@ -9,6 +9,23 @@ namespace SAIMLTD.Controllers
 {
     public class CustomerController : Controller
     {
+        [HttpPost]
+        public ActionResult import()
+        {
+            try
+            {
+                HttpFileCollectionBase fichiers = Request.Files;
+                string path = Server.MapPath("~/") + "App_Data_Storage/import/";
+                bool isImported = new CustomerService().Importer(fichiers, path);
+                if(isImported) return Redirect("/customer/add?&success_import=true");
+                else return Redirect("/customer/add?&error_import=true");
+            }
+            catch (Exception)
+            {
+                return Redirect("/customer/add?&error_import=true");
+            }
+        }
+
         public JsonResult Prepare_export()
         {
             JsonResult result = new JsonResult();
@@ -97,10 +114,12 @@ namespace SAIMLTD.Controllers
             return View("EditCustomer");
         }
 
-        public ActionResult Add(string success, string error)
+        public ActionResult Add(string success, string error, string success_import, string error_import)
         {
             if (success != null) ViewBag.success = "Création d'un client avec succès!";
             if (error != null) ViewBag.error = "Echec de la création du client!";
+            if (success_import != null) ViewBag.success = "Import des clients à partir d'un fichier avec succès!";
+            if (error_import != null) ViewBag.error = "Echec de l'import du fichier!";
             return View("AddCustomer");
         }
     }

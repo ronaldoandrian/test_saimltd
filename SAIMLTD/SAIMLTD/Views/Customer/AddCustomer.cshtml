@@ -7,7 +7,11 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                Ajouter un client
+                Ajouter un ou des client(s)
+                <form action="/customer/import" method="post" enctype="multipart/form-data" style="float: right;">
+                    <input type="file" id="fichier" name="fichier" onchange="isvalid()" required accept=".txt"/>
+                    <button type="submit" class="btn btn-primary" id="importer" disabled>Importer</button>
+                </form>
             </div>
             <div class="card-body card-block">
                 <form action="/customer/addcustomer" method="post" onsubmit="return confirm('Confirmer l\'envoie du formulaire!');" enctype="multipart/form-data" class="form-horizontal">
@@ -58,4 +62,21 @@
     if (menu_nos_clients) menu_nos_clients.classList.remove('active');
     var menu_ajouter = document.getElementById("menu_ajouter");
     if (menu_ajouter) menu_ajouter.classList.add('active');
+
+    function isvalid() {
+        var fichier = document.getElementById('fichier');
+        if (fichier) {
+            var filename = fichier.value;
+            if (filename.endsWith('.txt')) {
+                var importer = document.getElementById('importer');
+                if (importer) importer.removeAttribute('disabled');
+            }
+            else {
+                fichier.value = '';
+                alert('Veuillez choisir un fichier .txt uniquement!');
+                var importer = document.getElementById('importer');
+                if (importer) importer.setAttribute('disabled', 'disabled');
+            }
+        }
+    }
 </script>

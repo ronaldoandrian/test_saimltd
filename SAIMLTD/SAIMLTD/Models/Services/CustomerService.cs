@@ -11,6 +11,60 @@ namespace SAIMLTD.Models.Services
 {
     public class CustomerService
     {
+        public bool Importer(HttpFileCollectionBase fichiers, string path)
+        {
+            string filePath = "";
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+            for (int i = 0; i < fichiers.Count; i++)
+            {
+                filePath = path + "import_clients_SAIM_LTD.txt";
+                if (File.Exists(filePath)) File.Delete(filePath);
+                fichiers[i].SaveAs(@"" + filePath);
+                break;
+            }
+            List<Client> clients = CreateClientObjectList(filePath);
+            return new ClientDAO().Import(clients);
+        }
+
+        private List<Client> CreateClientObjectList(string filePath)
+        {
+            List<Client> clients = new List<Client>();
+            using (StreamReader file = new StreamReader(filePath))
+            {
+                string line;
+                while ((line = file.ReadLine()) != null)
+                {
+                    clients.Add(CreateClient(line));
+                }
+            }
+            return clients;
+        }
+
+        private Client CreateClient(string line)
+        {
+            string all_champ = "denomination|adresse|telephone|mail|siren|activite|capital|forme_juridique";
+            Client client = new Client();
+            List<string> champs = new List<string>();
+            List<string> valeurs = new List<string>();
+            string[] champsvaleurs = line.Split('|');
+            foreach(string champvaleur in champsvaleurs)
+            {
+                string[] splitChampValeur = champvaleur.Split('=');
+                if (splitChampValeur.Length != 2) continue;
+                else
+                {
+                    if(all_champ.Contains(splitChampValeur[0]))
+                    {
+                        champs.Add(splitChampValeur[0]);
+                        valeurs.Add(splitChampValeur[1]);
+                    }
+                }
+            }
+            client.SetChamps(champs);
+            client.SetValeurs(valeurs);
+            return client;
+        }
+
         public bool AddCustomer(string denomination, string adresse, string telephone, string mail, string siren, string activite, string capital, string forme_juridique)
         {
             try

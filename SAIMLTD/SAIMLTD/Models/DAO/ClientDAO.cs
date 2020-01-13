@@ -47,6 +47,67 @@ namespace SAIMLTD.Models.DAO
             }
         }
 
+        public bool Import(List<Client> clients)
+        {
+            DBConnection connection = null;
+            MySqlCommand command = null;
+            MySqlTransaction transaction = null;
+            try
+            {
+                connection = new DBConnection();
+                MySqlConnection mySqlConnection = connection.GetConnection();
+                transaction = mySqlConnection.BeginTransaction();
+                command = new MySqlCommand();
+                command.Connection = mySqlConnection;
+                command.Transaction = transaction;
+                int row_affected = 0;
+                foreach (Client client in clients)
+                {
+                    string sql = "INSERT INTO Client (";
+                    List<string> champs = client.GetChamps();
+                    List<string> valeurs = client.GetValeurs();
+                    int i = 0;
+                    foreach (string champ in champs)
+                    {
+                        sql += champ;
+                        i++;
+                        if (i < champs.Count) sql += ",";
+                    }
+                    i = 0;
+                    sql += ") VALUES (";
+                    foreach (string valeur in valeurs)
+                    {
+                        sql += "'"+valeur+"'";
+                        i++;
+                        if (i < valeurs.Count) sql += ",";
+                    }
+                    sql += ")";
+                    command.CommandText = sql;
+                    row_affected += command.ExecuteNonQuery();
+                }
+                transaction.Commit();
+                return row_affected > 0;
+            }
+            catch (Exception)
+            {
+                if (transaction != null) transaction.Rollback();
+                throw;
+            }
+            finally
+            {
+                try
+                {
+                    if (transaction != null) transaction.Dispose();
+                    if (command != null) command.Dispose();
+                    if (connection != null) connection.CloseConnection();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
         public Client GetCustomerById(int id)
         {
             DBConnection connection = null;

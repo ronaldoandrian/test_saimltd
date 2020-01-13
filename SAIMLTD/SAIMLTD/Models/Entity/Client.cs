@@ -18,6 +18,8 @@ namespace SAIMLTD.Models.Entity
         private double capital;
         private string forme_juridique;
         private List<ContactPerson> personnes;
+        private List<string> champs;
+        private List<string> valeurs;
 
         public int GetId()
         {
@@ -110,6 +112,24 @@ namespace SAIMLTD.Models.Entity
 
                 throw;
             }
+        }
+
+        public List<string> GetChamps()
+        {
+            return champs;
+        }
+        public void SetChamps(List<string> champs)
+        {
+            this.champs = champs;
+        }
+
+        public List<string> GetValeurs()
+        {
+            return valeurs;
+        }
+        public void SetValeurs(List<string> valeurs)
+        {
+            this.valeurs = valeurs;
         }
     }
 }
