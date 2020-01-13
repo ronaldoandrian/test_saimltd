@@ -192,11 +192,37 @@ namespace SAIMLTD.Models.Services
             }
         }
 
+        public List<Client> GetCustomers(int page)
+        {
+            try
+            {
+                return new ClientDAO().GetCustomers(page);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public List<ContactPerson> GetContactPersonById(int id)
         {
             try
             {
                 return new ContactPersonDAO().GetContactPersonById(id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public int CountCustomer()
+        {
+            try
+            {
+                return new ClientDAO().CountCustomer();
             }
             catch (Exception)
             {

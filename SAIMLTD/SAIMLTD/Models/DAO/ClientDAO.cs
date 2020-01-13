@@ -196,6 +196,42 @@ namespace SAIMLTD.Models.DAO
             }
         }
 
+        public int CountCustomer()
+        {
+            DBConnection connection = null;
+            MySqlCommand command = null;
+            MySqlDataReader reader = null;
+            try
+            {
+                connection = new DBConnection();
+                command = connection.GetConnection().CreateCommand();
+                command.CommandText = @"SELECT count(*) FROM Client";
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    return reader.GetInt32(0);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                try
+                {
+                    if (reader != null) reader.Close();
+                    if (command != null) command.Dispose();
+                    if (connection != null) connection.CloseConnection();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            return 0;
+        }
+
         public bool DeleteCustomerById(string idcustomer)
         {
             DBConnection connection = null;
@@ -249,6 +285,55 @@ namespace SAIMLTD.Models.DAO
                 connection = new DBConnection();
                 command = connection.GetConnection().CreateCommand();
                 command.CommandText = "select * from Client";
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Client client = new Client();
+                    client.SetId(reader.GetInt32(0));
+                    client.SetDenomination(reader.GetString(1));
+                    client.SetAdresse(reader.GetString(2));
+                    client.SetTelephone(reader.GetString(3));
+                    client.SetMail(reader.GetString(4));
+                    client.SetSiren(reader.GetString(5));
+                    client.SetActivite(reader.GetString(6));
+                    client.SetCapital(reader.GetDouble(7));
+                    client.SetFormeJuridique(reader.GetString(8));
+                    result.Add(client);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                try
+                {
+                    if (reader != null) reader.Close();
+                    if (command != null) command.Dispose();
+                    if (connection != null) connection.CloseConnection();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            return result;
+        }
+
+        public List<Client> GetCustomers(int page)
+        {
+            DBConnection connection = null;
+            MySqlCommand command = null;
+            MySqlDataReader reader = null;
+            List<Client> result = new List<Client>();
+            try
+            {
+                int offset = (page - 1) * 10;
+                connection = new DBConnection();
+                command = connection.GetConnection().CreateCommand();
+                command.CommandText = "SELECT * FROM Client LIMIT 10 OFFSET @offset";
+                command.Parameters.AddWithValue("@offset", offset);
                 reader = command.ExecuteReader();
                 while (reader.Read())
                 {

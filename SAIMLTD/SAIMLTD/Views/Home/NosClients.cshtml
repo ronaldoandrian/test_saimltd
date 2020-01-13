@@ -21,28 +21,35 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @{ 
+                    @{
                         if (ViewBag.clients != null)
                         {
                             List<Client> clients = ViewBag.clients as List<Client>;
                             foreach (Client client in clients)
                             {
-                            <tr>
-                                <td>@client.GetDenomination()</td>
-                                <td>@client.GetAdresse()</td>
-                                <td>
-                                    @(client.GetMail())
-                                    <br />
-                                    @client.GetTelephone()</td>
-                                <td>
-                                    <span><a href="/customer/viewcustomer?idcustomer=@client.GetId()"><i class="fa fa-eye"></i></a> &nbsp;&nbsp;&nbsp; <a href="/customer/edit?idcustomer=@client.GetId()"><i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp; <span style="color: red; cursor: pointer;"><i class="fa fa-trash" onclick="delete_client(@client.GetId())"></i></span></span>
-                                </td>
-                            </tr>
-                                }
+                                <tr>
+                                    <td>@client.GetDenomination()</td>
+                                    <td>@client.GetAdresse()</td>
+                                    <td>
+                                        @(client.GetMail())
+                                        <br />
+                                        @client.GetTelephone()
+                                    </td>
+                                    <td>
+                                        <span><a href="/customer/viewcustomer?idcustomer=@client.GetId()"><i class="fa fa-eye"></i></a> &nbsp;&nbsp;&nbsp; <a href="/customer/edit?idcustomer=@client.GetId()"><i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp; <span style="color: red; cursor: pointer;"><i class="fa fa-trash" onclick="delete_client(@client.GetId())"></i></span></span>
+                                    </td>
+                                </tr>
                             }
                         }
+                    }
                 </tbody>
             </table>
+            @if (ViewBag.pagination != null)
+            {
+                <ul class="pagination justify-content-center" style="margin:20px 0">
+                    @(new HtmlString(ViewBag.pagination))
+                </ul>
+            }
         </div>
     </div>
 </div>
